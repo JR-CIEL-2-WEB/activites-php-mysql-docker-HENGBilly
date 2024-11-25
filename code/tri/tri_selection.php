@@ -33,8 +33,12 @@ function tri_selection_ref(&$t){
     }
 
 }
-$t = [5, 3, 8, 2, 9, 1, 7, 4, 6];
-$test = tri_selection($t);
 
-echo "Tableau trié par ordre croissant : " . implode(", ", $test);
+$t = [5, 3, 8, 2, 9, 1, 7, 4, 6];
+echo "Tableau initial : " . implode(", ", $t);
+$test = tri_selection($t);
+tri_selection_ref($t);
+
+echo "<br>Tableau trié par ordre croissant : " . implode(", ", $test);
+echo "<br>Tableau trié par ordre croissant (méthode référence) : " . implode(", ", $t);
 ?>
