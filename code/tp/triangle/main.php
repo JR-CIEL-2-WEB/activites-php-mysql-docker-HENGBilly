@@ -12,5 +12,5 @@ if (isset($_GET['n'])) {
     $n = intval($_GET['n']);
     triangle($n);
 }
-triangle(5);
+
 ?>
