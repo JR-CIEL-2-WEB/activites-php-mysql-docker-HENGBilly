@@ -26,28 +26,30 @@
             console.log("Nombres saisis : ", numbers);
 
             try {
-                // Envoi des nombres au fichier tri.php via fetch
-                const response = await fetch('tri.php', {
-                    method: 'POST',  // Utilisation de la méthode POST
-                    headers: {
-                        'Content-Type': 'application/json', // Envoi des données en JSON
-                    },
-                    body: JSON.stringify({ numbers }) // Envoi des données sous forme JSON
-                });
+                // Créer l'URL avec le paramètre list en JSON
+                const url = `https://84cc97ac-615d-49c2-805c-2b6b63df2429.mock.pstmn.io/?list=${JSON.stringify(numbers)}`;
+                
+                console.log("URL envoyée :", url);
+
+                // Envoi de la requête GET vers le serveur mock avec les nombres dans l'URL
+                const response = await fetch(url);
 
                 // Vérification si la réponse du serveur est correcte
                 if (!response.ok) {
                     throw new Error('Erreur serveur');
                 }
 
-                // Récupération de la réponse du serveur
+                // Lire la réponse JSON
                 const result = await response.json();
+
+                // Affichage de la réponse brute pour debug
+                console.log("Réponse brute du serveur : ", result);
 
                 // Si la réponse contient un tableau trié, afficher les résultats
                 if (result.sorted) {
                     document.getElementById('result').textContent = "Nombres triés : " + result.sorted.join(', ');
                 } else {
-                    document.getElementById('result').textContent = "Erreur : " + result.error;
+                    document.getElementById('result').textContent = "Erreur : " + result.error || 'Réponse invalide du serveur';
                 }
             } catch (error) {
                 // En cas d'erreur (réseau, serveur, etc.)
