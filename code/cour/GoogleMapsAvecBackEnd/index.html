@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Courses à pied - Simple</title>
+</head>
+<body>
+
+<h1>Courses à pied</h1>
+<hr>
+
+<!-- Menu déroulant pour sélectionner une course -->
+<label for="courseSelect">Choisissez une course :</label>
+<select id="courseSelect" onchange="loadSelectedCourse()">
+    <option value="">--Sélectionnez une course--</option>
+</select>
+
+<div id="map">...</div>
+
+<style type="text/css">
+    #map {
+        height: 600px;
+        width: 100%;
+    }
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<!-- Script de Google Maps -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7Y32T_PJHZxYcK3BJYJFNwSl6cuvLXpo&callback=initMap"
+    async defer></script>
+
+<script>
+    let flightPlanCoordinates = [];
+    let allCourses = [];
+
+    // Charger les noms des courses pour le menu déroulant
+    window.onload = function() {
+        fetch('course.json')  // Charger uniquement les noms des courses
+            .then(response => response.json())
+            .then(data => {
+                allCourses = data;
+                fillDropdown(); // Remplir le menu déroulant avec les noms des courses
+            })
+            .catch(error => console.log('Erreur:', error));
+    };
+
+    // Remplir le menu déroulant
+    function fillDropdown() {
+        const select = document.getElementById('courseSelect');
+        for (let i = 0; i < allCourses.length; i++) {
+            let option = document.createElement('option');
+            option.value = allCourses[i].id;
+            option.text = allCourses[i].name;
+            select.appendChild(option);
+        }
+    }
+
+    // Charger la course sélectionnée sur la carte
+    function loadSelectedCourse() {
+        const select = document.getElementById('courseSelect');
+        const selectedCourseId = parseInt(select.value);
+
+        if (!selectedCourseId) return; // Si aucune course n'est sélectionnée, ne rien faire
+
+        // Charger les données de la course sélectionnée via course.php
+        fetch(`course.php?id=${selectedCourseId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors du chargement de la course');
+                }
+                return response.json();
+            })
+            .then(selectedCourse => {
+                flightPlanCoordinates = []; // Réinitialiser les coordonnées
+
+                // Ajouter les marqueurs de la course
+                for (let i = 0; i < selectedCourse.markers.length; i++) {
+                    let marker = selectedCourse.markers[i];
+                    flightPlanCoordinates.push({ lat: marker.lat, lng: marker.lng });
+                }
+
+                // Afficher la carte avec les nouveaux marqueurs
+                initMap();
+            })
+            .catch(error => console.error('Erreur:', error));
+    }
+
+    // Initialiser la carte
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: flightPlanCoordinates.length > 0 ? flightPlanCoordinates[0] : { lat: 48.96098835397843, lng: 2.5478726217074015 },
+            mapTypeId: "terrain"
+        });
+
+        // Ajouter un chemin avec les points
+        const flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+
+        // Ajouter des marqueurs sur la carte
+        for (let i = 0; i < flightPlanCoordinates.length; i++) {
+            new google.maps.Marker({
+                position: flightPlanCoordinates[i],
+                map: map
+            });
+        }
+    }
+
+</script>
+
+</body>
+</html>
