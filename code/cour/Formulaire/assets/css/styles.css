@@ -1,0 +1,126 @@
+/* Validation styles */
+.valide {
+    border: 3px solid;
+    border-color: chartreuse;
+}
+
+.pas-valide {
+    border: 3px solid;
+    border-color: red;
+}
+
+.invisible {
+    color: red;
+}
+
+.tvalide {
+    color: chartreuse;
+}
+
+.tpas-valide {
+    color: red;
+}
+
+/* Global body styling with animated gradient background */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(132deg, #ff007f, #ff6347, #ff4500, #ff1493, #ff00ff, #ff8c00, #ffff00, #32cd32, #00ff7f, #00ced1, #1e90ff, #7b68ee, #ff69b4, #ff6347, #ff1493, #9932cc, #ff6347, #ffb6c1, #ff0000, #00bfff);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: #333;
+}
+
+/* Smooth gradient animation */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Styling for the main container */
+.container {
+    text-align: center;
+    position: relative;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    border-radius: 15px;
+    padding: 20px 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon in top-right corner */
+.icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.icon img {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+
+.icon img:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+
+/* Welcome message styling */
+.welcome-message h1 {
+    font-size: 2.5em;
+    color: #5a5a5a;
+    margin: 0;
+    font-family: 'Roboto', sans-serif; /* Modern font */
+}
+
+/* Additional form styles */
+.contact-clean {
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+    padding: 40px 60px;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    backdrop-filter: blur(10px); /* Adds a subtle blur effect behind the form */
+    -webkit-backdrop-filter: blur(10px); /* Safari compatibility */
+}
+
+
+.contact-clean form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.contact-clean .form-group input,
+.contact-clean .form-group textarea {
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+}
+
+.contact-clean .form-group input:focus,
+.contact-clean .form-group textarea:focus {
+    border-color: #6c63ff; /* Highlight on focus */
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+    outline: none;
+}
+
+.contact-clean .btn {
+    background-color: #6c63ff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-clean .btn:hover {
+    background-color: #574bdb; /* Darker shade on hover */
+}
