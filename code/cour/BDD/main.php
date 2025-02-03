@@ -4,11 +4,6 @@ require_once 'mediane.php';
 require_once 'moyenne.php';
 require_once 'tri_selection.php';
 
-try {
-    // Connexion à la base de données
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Récupérer les salaires de la colonne `Salaire`
     $query = $pdo->query("SELECT Salaire FROM Salaires");
     $salaires = $query->fetchAll(PDO::FETCH_COLUMN);
@@ -27,9 +22,4 @@ try {
     echo "Moyenne des salaires : $moyenne<br>";
     echo "Médiane des salaires : $mediane<br>";
     echo "Salaires triés : " . implode(', ', $salaires_tries) . "<br>";
-} catch (PDOException $e) {
-    echo "Erreur de connexion à la base de données : " . $e->getMessage();
-} catch (Exception $e) {
-    echo "Erreur : " . $e->getMessage();
-}
 ?>
